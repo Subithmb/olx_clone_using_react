@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './Pages/Signup';
 import {getAuth,onAuthStateChanged} from 'firebase/auth'
 import Home from './Pages/Home';
+import View from './Pages/ViewPost'
 import './App.css';
 import Login from './Pages/Login';
 import { AuthContext,FirebaseContext } from '../src/store/Context';
 import Create from './Pages/Create'
+import Post from './store/PostContext';
 // import { FirebaseContext } from './store/Context';
 // import { FirebaseContext } from './store/Context';
 
@@ -45,14 +47,17 @@ function App() {
   })
   return (
     <div>
+      <Post>
       <Router>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/create' element={<Create/>} />
+          <Route path='/view' element={<View/>} />
         </Routes>
       </Router>
+      </Post>
     </div>
   );
 }

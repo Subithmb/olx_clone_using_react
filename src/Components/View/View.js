@@ -1,27 +1,65 @@
-import React from 'react';
+import React,{useContext,useState,useEffect} from 'react';
+import { FirebaseContext } from '../../store/Context';
+import {PostContext} from '../../store/PostContext';
 
+import { collection, getDocs, query, where } from "firebase/firestore";
 import './View.css';
 function View() {
+  const[userDetails,setUserDetails]=useState()
+  const {postDetails}=useContext(PostContext)
+  const {FireBase,db}=useContext(FirebaseContext)
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "users"), where("id", "==", postDetails.userId));
+  
+      const userDetails = [];
+      querySnapshot.forEach((doc) => {
+        userDetails.push(doc.data());
+      });
+  
+      setUserDetails(userDetails);
+    };
+  
+    fetchData();
+  },[]);
+// useEffect(() => {
+//   const fetchData = async () => {
+//     const q = query(collection(db, "users"), where("id", "==", postDetails.userId));
+//     const querySnapshot = await getDocs(q);
+
+//     const userDetails = [];
+//     querySnapshot.forEach((doc) => {
+//       userDetails.push(doc.data());
+//     });
+
+//     setUserDetails(userDetails);
+//   };
+
+//   fetchData();
+// }, []);
+
+  
   return (
     <div className="viewParentDiv">
       <div className="imageShowDiv">
         <img
-          src="../../../Images/R15V3.jpg"
+          src={postDetails.imageUrl}
           alt=""
         />
       </div>
       <div className="rightSection">
         <div className="productDetails">
-          <p>&#x20B9; 250000 </p>
-          <span>YAMAHA R15V3</span>
-          <p>Two Wheeler</p>
-          <span>Tue May 04 2021</span>
+          <p>&#x20B9; {postDetails.price}</p>
+          <span>{postDetails.name}</span>
+          <p>{postDetails.category}</p>
+          <span>{postDetails.createdAt}</span>
         </div>
-        <div className="contactDetails">
+      { userDetails && <div className="contactDetails">
           <p>Seller details</p>
-          <p>No name</p>
-          <p>1234567890</p>
-        </div>
+          <p>{userDetails[0].username}</p>
+          <p>{userDetails[0].phone}</p>
+          <p>{userDetails[0].email}</p>
+        </div>}
       </div>
     </div>
   );

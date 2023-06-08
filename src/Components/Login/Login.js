@@ -32,6 +32,11 @@ function Login() {
 
   }
 
+  const signupUser=()=>{
+  
+    navigate('/signup');
+  }
+
   return (
     <div>
       <div className="loginParentDiv">
@@ -61,7 +66,7 @@ function Login() {
           <br />
           <button>Login</button>
         </form>
-        <a>Signup</a>
+        <a onClick={signupUser}>Signup</a>
       </div>
     </div>
   );

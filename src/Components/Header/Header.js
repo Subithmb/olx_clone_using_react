@@ -30,11 +30,24 @@ const handleSignout=()=>{
     });
 }
 
+const sellProduct=()=>{
+ 
+  navigate('/create');
+}
+
+const loginUser=()=>{
+  
+  navigate('/login');
+}
+const loadHome=()=>{
+  navigate('/');
+}
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
-        <div className="brandName">
-          <OlxLogo></OlxLogo>
+        <div onClick={loadHome} className="brandName">
+          <OlxLogo ></OlxLogo>
         </div>
         <div className="placeSearch">
           <Search></Search>
@@ -57,15 +70,16 @@ const handleSignout=()=>{
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-        <span>{user?`Welcome ${user.displayName}`:"Login"}</span>
+       {user && <span >Welcome {user.displayName}</span>}
+       {!user && <span onClick={loginUser}>Login</span>}
           <hr />
         </div>
         {user&&<span className='logout' onClick={handleSignout}>logout</span>}
         <div className="sellMenu">
           <SellButton></SellButton>
           <div className="sellMenuContent">
-            <SellButtonPlus></SellButtonPlus>
-            <span>SELL</span>
+            <SellButtonPlus ></SellButtonPlus>
+            <span onClick={sellProduct}>SELL</span>
           </div>
         </div>
       </div>

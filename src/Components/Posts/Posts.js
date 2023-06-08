@@ -54,12 +54,8 @@ function Posts() {
 
 const[products,setProducts]=useState([])
 const {FireBase}=useContext(FirebaseContext)
-console.log('11111111111');
-console.log(PostContext);
-console.log('22222222222222222');
-console.log(useContext(PostContext));
-console.log('33333333333333333333');
-// const {setPostDetail}=useContext(PostContext)
+
+const {setPostDetail}=useContext(PostContext)
 const navigate=useNavigate()
 
 useEffect(()=>{
