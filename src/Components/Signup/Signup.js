@@ -3,7 +3,7 @@ import Logo from '../../olx-logo.png';
 import './Signup.css';
 import { FirebaseContext } from '../../store/Context';
 import { useNavigate } from 'react-router';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection } from 'firebase/firestore';
 
 
@@ -19,7 +19,8 @@ export default function Signup() {
   const emailRef=useRef(null)
   const phoneRef=useRef(null)
   const passwordRef=useRef(null)
-  const {firebaseApp,db}=useContext(FirebaseContext)
+
+  const {FireBase,db}=useContext(FirebaseContext)
   
 
 
@@ -31,15 +32,21 @@ export default function Signup() {
     setPhone(phoneRef.current.value)
     setUsername(usernameRef.current.value)
 
-    const auth = getAuth(firebaseApp);
+    const auth = getAuth(FireBase);
 
     createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
       .then((userCredential) => {
 
         // Signed up 
-        // const user = userCredential.user;
+       const user = userCredential.user;
+       updateProfile(user,{
+        displayName:username
 
-        addDoc(collection(db,"user"),{
+       }).then(()=>{
+
+      
+
+        addDoc(collection(db,"users"),{
           id:userCredential.user.uid,
           email,
           password,
@@ -55,6 +62,7 @@ export default function Signup() {
         console.log(err.code);
         console.log(err.message);
       });
+    })
     
   };
   
